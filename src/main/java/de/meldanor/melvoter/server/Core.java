@@ -23,9 +23,48 @@
 
 package de.meldanor.melvoter.server;
 
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import de.meldanor.melvoter.server.rest.WebService;
+
 public class Core {
 
+    public static final Logger LOGGER;
+
+    static {
+        LOGGER = Logger.getLogger(Core.class.getName());
+    }
+
     public static void main(String[] args) {
-        System.out.println("Nothing to do - Hello World!");
+        LOGGER.info("Starting the webservice at localhost:8123");
+
+        WebService service = new WebService("http://localhost", 8123);
+        try {
+            service.start();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Can't start the HTTP server! This server is shutting down!", e);
+            return;
+        }
+
+        LOGGER.info("WebService ist started!");
+        LOGGER.info("Enter 'shutdown' to shutdown the server safely");
+
+        Scanner scanner = new Scanner(System.in);
+        String line = "";
+        boolean isRunning = true;
+        while (isRunning) {
+            line = scanner.nextLine().toLowerCase();
+            if (line.equals("shutdown")) {
+                isRunning = false;
+            }
+
+        }
+
+        LOGGER.info("Server is shutting down...");
+        scanner.close();
+        service.stop();
     }
 }
