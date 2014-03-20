@@ -23,12 +23,13 @@
 
 package de.meldanor.melvoter.server;
 
+import de.meldanor.melvoter.server.database.Database;
+import de.meldanor.melvoter.server.rest.WebService;
+
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import de.meldanor.melvoter.server.rest.WebService;
 
 public class Core {
 
@@ -41,6 +42,11 @@ public class Core {
     public static void main(String[] args) {
         LOGGER.info("Starting the webservice at localhost:8123");
 
+        try {
+            Database database = new Database("db.h2");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Can't create database connection", e);
+        }
         WebService service = new WebService("http://localhost", 8123);
         try {
             service.start();
