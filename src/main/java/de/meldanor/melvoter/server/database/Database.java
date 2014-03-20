@@ -46,6 +46,7 @@ public class Database {
         this.createDatabaseStructure();
     }
 
+
     private ConnectionSource createConnectionSource(String url) throws SQLException {
         return new JdbcConnectionSource(url);
     }

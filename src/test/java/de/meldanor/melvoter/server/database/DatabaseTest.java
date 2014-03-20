@@ -24,15 +24,50 @@
 
 package de.meldanor.melvoter.server.database;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.table.TableUtils;
+import de.meldanor.melvoter.server.database.entity.Lecture;
+import de.meldanor.melvoter.server.database.entity.Vote;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 public class DatabaseTest {
 
+    private static Database db;
+
+    @BeforeClass
+    public static void beforeClass() throws Exception{
+        db = new Database("target/database");
+        // Clear test database
+        TableUtils.dropTable(db.getLectureDAO().getConnectionSource(),Lecture.class, true);
+        TableUtils.dropTable(db.getLectureDAO().getConnectionSource(), Vote.class, true);
+        TableUtils.createTable(db.getLectureDAO().getConnectionSource(), Lecture.class);
+        TableUtils.createTable(db.getLectureDAO().getConnectionSource(), Vote.class);
+    }
+
+
     @Test
-    public void initDatabase() throws SQLException, ClassNotFoundException {
-        Database db = new Database("target/database");
-        db.shutdown();
+    public void createLecture() throws SQLException, ClassNotFoundException {
+        Dao<Lecture, Integer> lectureDAO = db.getLectureDAO();
+        int res = lectureDAO.create(new Lecture("TestLecture"));
+
+        assertEquals(1, lectureDAO.queryForEq("title", "TestLecture").size());
+        assertNotEquals(1, lectureDAO.queryForEq("title", "NotExistingTitle").size());
+    }
+
+    @Test
+    public void createVote() throws SQLException {
+        Dao<Lecture, Integer> lectureDAO = db.getLectureDAO();
+        Dao<Vote, Integer>  voteDAO = db.getVoteDAO();
+
+        Lecture lecture = lectureDAO.queryForEq("title", "TestLecture").get(0);
+        Vote vote = new Vote(1, 2, lecture);
+
+        voteDAO.create(vote);
     }
 }
