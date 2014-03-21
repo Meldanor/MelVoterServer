@@ -25,6 +25,7 @@
 package de.meldanor.melvoter.server.database;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import de.meldanor.melvoter.server.database.entity.Lecture;
 import de.meldanor.melvoter.server.database.entity.Vote;
@@ -41,20 +42,24 @@ public class DatabaseTest {
     private static Database db;
 
     @BeforeClass
-    public static void beforeClass() throws Exception{
+    public static void beforeClass() throws Exception {
         db = new Database("target/database");
-        // Clear test database
-        TableUtils.dropTable(db.getLectureDAO().getConnectionSource(),Lecture.class, true);
-        TableUtils.dropTable(db.getLectureDAO().getConnectionSource(), Vote.class, true);
-        TableUtils.createTable(db.getLectureDAO().getConnectionSource(), Lecture.class);
-        TableUtils.createTable(db.getLectureDAO().getConnectionSource(), Vote.class);
+
+        clearDatabase(db.getLectureDAO().getConnectionSource());
+    }
+
+    public static void clearDatabase(ConnectionSource source) throws Exception {
+        TableUtils.dropTable(source, Lecture.class, true);
+        TableUtils.dropTable(source, Vote.class, true);
+        TableUtils.createTable(source, Lecture.class);
+        TableUtils.createTable(source, Vote.class);
     }
 
 
     @Test
     public void createLecture() throws SQLException, ClassNotFoundException {
         Dao<Lecture, Integer> lectureDAO = db.getLectureDAO();
-        int res = lectureDAO.create(new Lecture("TestLecture"));
+        lectureDAO.create(new Lecture("TestLecture"));
 
         assertEquals(1, lectureDAO.queryForEq("title", "TestLecture").size());
         assertNotEquals(1, lectureDAO.queryForEq("title", "NotExistingTitle").size());
@@ -63,7 +68,7 @@ public class DatabaseTest {
     @Test
     public void createVote() throws SQLException {
         Dao<Lecture, Integer> lectureDAO = db.getLectureDAO();
-        Dao<Vote, Integer>  voteDAO = db.getVoteDAO();
+        Dao<Vote, Integer> voteDAO = db.getVoteDAO();
 
         Lecture lecture = lectureDAO.queryForEq("title", "TestLecture").get(0);
         Vote vote = new Vote(1, 2, lecture);

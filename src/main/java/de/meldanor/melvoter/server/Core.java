@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 public class Core {
 
     public static final Logger LOGGER;
+    public static Database DB;
 
     static {
         LOGGER = Logger.getLogger(Core.class.getName());
@@ -43,7 +44,7 @@ public class Core {
         LOGGER.info("Starting the webservice at localhost:8123");
 
         try {
-            Database database = new Database("db.h2");
+            DB = new Database("db.h2");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Can't create database connection", e);
         }
@@ -59,7 +60,7 @@ public class Core {
         LOGGER.info("Enter 'shutdown' to shutdown the server safely");
 
         Scanner scanner = new Scanner(System.in);
-        String line = "";
+        String line;
         boolean isRunning = true;
         while (isRunning) {
             line = scanner.nextLine().toLowerCase();
