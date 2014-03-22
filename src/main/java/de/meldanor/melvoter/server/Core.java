@@ -71,6 +71,7 @@ public class Core {
         }
 
         LOGGER.info("Server is shutting down...");
+        DB.shutdown();
         scanner.close();
         service.stop();
     }
