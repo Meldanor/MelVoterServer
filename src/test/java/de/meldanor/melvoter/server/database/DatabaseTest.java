@@ -27,12 +27,15 @@ package de.meldanor.melvoter.server.database;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
 import de.meldanor.melvoter.server.database.entity.Lecture;
 import de.meldanor.melvoter.server.database.entity.Vote;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -55,7 +58,6 @@ public class DatabaseTest {
         TableUtils.createTable(source, Vote.class);
     }
 
-
     @Test
     public void createLecture() throws SQLException, ClassNotFoundException {
         Dao<Lecture, Integer> lectureDAO = db.getLectureDAO();
@@ -74,5 +76,8 @@ public class DatabaseTest {
         Vote vote = new Vote(1, 2, lecture);
 
         voteDAO.create(vote);
+        
+        List<Vote> queryForEq = voteDAO.queryForEq("lecture_id", lectureDAO.queryForEq("title", "TestLecture").get(0));
+        System.out.println(queryForEq);
     }
 }

@@ -2,19 +2,19 @@
  * @author Meldanor
  */
 $(document).ready(function() {
-		
+
 	// $.ajax({
-		// type: "post",
-		// url: "../api/lecture/create",
-		// data: "testLecture",
-		// contentType: "application/json",
-		// success: function(data, textData, jqxhr) {
-			// alert(textData);
-		// },
-		// error: function(jqxhr, textData, errorThrown) {
-			// alert(textData);
-		// }
-// 		
+	// type: "post",
+	// url: "../api/lecture/create",
+	// data: "testLecture",
+	// contentType: "application/json",
+	// success: function(data, textData, jqxhr) {
+	// alert(textData);
+	// },
+	// error: function(jqxhr, textData, errorThrown) {
+	// alert(textData);
+	// }
+	//
 	// });
 
 	//$.getJSON("http://localhost:8123/lecture/create/Test",function(data) {
@@ -51,6 +51,14 @@ $(document).ready(function() {
 	});
 	$('#collapseThree').on('show.bs.collapse', function() {
 		$(this).html('<div class="panel-body">3. Dynamisch erzeugte Website</div>');
+	});
+
+	$('#createForm').submit(function(event) {
+		var input = $("input:first").val();
+		var formGroup = $('#createFormGroup');
+		formGroup.toggleClass("has-success").toggleClass("has-feedback");
+		var bla = $('#createFormGroupIcon').toggle();
+		event.preventDefault();
 	});
 });
 
