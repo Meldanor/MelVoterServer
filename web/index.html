@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Melvoter</title>
+
+		<!-- Bootstrap -->
+		<link href="web/css/bootstrap.min.css" rel="stylesheet">
+		<link href="web/css/bootstrap-theme.min.css" rel="stylesheet">
+
+		<meta name="viewport" content="width=device-width">
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="web/js/bootstrap.min.js"></script>
+		<!-- Own script -->
+		<script type="application/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<ul class="nav nav-tabs" id="mainTab">
+			<li class="active">
+				<a href="#show" ><span class="glyphicon glyphicon-list-alt" title="Show"> Show</span></a>
+			</li>
+			<li>
+				<a href="#edit" ><span class="glyphicon glyphicon-pencil" title="Edit"> Edit</span></a>
+			</li>
+			<li>
+				<a href="#add" ><span class="glyphicon glyphicon-plus" title="Add"> Add</span></a>
+			</li>
+		</ul>
+		<div id="mainTabContent" class="tab-content">
+			<div class="tab-pane fade in active" id="show">
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> TheoInf II </a></h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse">
+
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> Sichere Systeme </a></h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse">
+							
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> GameDesign </a></h4>
+						</div>
+						<div id="collapseThree" class="panel-collapse collapse">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="edit">
+				Hier kannst du Votierungen eintragen
+			</div>
+			<div class="tab-pane fade" id="add">
+				Hier kannst du Veranstaltungen eintragen
+			</div>
+		</div>
+
+	</body>
+</html>

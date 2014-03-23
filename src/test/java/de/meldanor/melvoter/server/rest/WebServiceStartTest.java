@@ -31,10 +31,9 @@ public class WebServiceStartTest {
 
     @Test
     public void startNormal() throws IOException {
-        WebService webservice = new WebService("http://localhost", 8321);
+        WebService webservice = new WebService("web", "http://localhost", 80);
         webservice.start();
 
         webservice.stop();
-        // No warning - all templates found
     }
 }

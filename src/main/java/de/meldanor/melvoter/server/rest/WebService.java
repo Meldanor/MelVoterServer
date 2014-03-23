@@ -29,6 +29,7 @@ import java.net.URI;
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -36,17 +37,23 @@ public class WebService {
 
     private HttpServer httpServer;
 
-    public WebService(String baseURI, int port) {
+    public WebService(String webFolder, String baseURI, int port) {
 
-        URI restURI = UriBuilder.fromUri(baseURI).port(port).build();
+        URI restURI = UriBuilder.fromUri(baseURI).port(port).path("api").build();
+        System.out.println(restURI);
         ResourceConfig config = new MelVoterApplication();
         this.httpServer = GrizzlyHttpServerFactory.createHttpServer(restURI, config);
+
+        StaticHttpHandler fileHandler = new StaticHttpHandler(webFolder);
+        fileHandler.setFileCacheEnabled(false); // TODO: Remove this at runtime
+        this.httpServer.getServerConfiguration().addHttpHandler(fileHandler);
+
     }
-    
+
     public void start() throws IOException {
         this.httpServer.start();
     }
-    
+
     public void stop() {
         this.httpServer.shutdown();
     }

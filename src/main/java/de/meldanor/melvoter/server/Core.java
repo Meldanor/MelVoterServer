@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 
 public class Core {
 
+    private static final int PORT = 80;
     public static final Logger LOGGER;
     public static Database DB;
 
@@ -41,14 +42,14 @@ public class Core {
     }
 
     public static void main(String[] args) {
-        LOGGER.info("Starting the webservice at localhost:8123");
+        LOGGER.info("Starting the webservice at localhost" + PORT);
 
         try {
             DB = new Database("db.h2");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Can't create database connection", e);
         }
-        WebService service = new WebService("http://localhost", 8123);
+        WebService service = new WebService("web", "http://localhost", PORT);
         try {
             service.start();
         } catch (IOException e) {
