@@ -40,7 +40,6 @@ public class WebService {
     public WebService(String webFolder, String baseURI, int port) {
 
         URI restURI = UriBuilder.fromUri(baseURI).port(port).path("api").build();
-        System.out.println(restURI);
         ResourceConfig config = new MelVoterApplication();
         this.httpServer = GrizzlyHttpServerFactory.createHttpServer(restURI, config);
 

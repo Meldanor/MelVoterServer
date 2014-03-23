@@ -3,29 +3,6 @@
  */
 $(document).ready(function() {
 
-	// $.ajax({
-	// type: "post",
-	// url: "../api/lecture/create",
-	// data: "testLecture",
-	// contentType: "application/json",
-	// success: function(data, textData, jqxhr) {
-	// alert(textData);
-	// },
-	// error: function(jqxhr, textData, errorThrown) {
-	// alert(textData);
-	// }
-	//
-	// });
-
-	//$.getJSON("http://localhost:8123/lecture/create/Test",function(data) {
-	//alert(data);
-	//});
-	// $.post("http://localhost:8123/lecture/create", "'Test'", function(data) {
-	// alert("Data Loaded: " + data);
-	// }, "json").fail(function () {
-	// alert(data);
-	// });
-
 	$('#mainTab a[href="#show"]').click(function(e) {
 		e.preventDefault();
 		$(this).tab('show');
@@ -54,14 +31,42 @@ $(document).ready(function() {
 	});
 
 	$('#createForm').submit(function(event) {
-		var input = $("input:first").val();
+		var lectureTitle = $("input:first").val();
 		var formGroup = $('#createFormGroup');
-		formGroup.toggleClass("has-success").toggleClass("has-feedback");
-		var bla = $('#createFormGroupIcon').toggle();
+		$.ajax({
+			type : "post",
+			url : "../api/lecture/create",
+			data : lectureTitle,
+			contentType : "application/json",
+			success : function(data, textData, jqxhr) {
+				formGroup.removeClass("has-error").addClass("has-success").addClass("has-feedback");
+				$('#createFormGroupIcon').toggle();
+			},
+			error : function(jqxhr, textData, errorThrown) {
+				formGroup.removeClass("has-success").addClass("has-error").addClass("has-feedback");
+				$('#createFormGroupIcon').toggle();
+			}
+		});
 		event.preventDefault();
+	});
+
+	$('#lectureTitleInput').focusout(function() {
+		var lectureTitle = $("input:first").val();
+		var formGroup = $('#createFormGroup');
+		$.ajax({
+			type : "post",
+			url : "../api/lecture/exists",
+			data : lectureTitle,
+			contentType : "application/json",
+			success : function(data, textData, jqxhr) {
+				formGroup.removeClass("has-success").addClass("has-error").toggleClass("has-feedback");
+			},
+			statusCode: {
+				204: function(xhr) {
+					formGroup.removeClass("has-success").removeClass("has-error").removeClass("has-feedback");
+				}
+			}
+		});
 	});
 });
 
-var show = function(text) {
-	alert(text);
-};

@@ -63,6 +63,22 @@ public class LectureResource {
         return !lectureDAO.queryForEq("title", name).isEmpty();
     }
 
+    @Path("exists")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response exists(String lectureTitle) {
+        try {
+            if (lectureExists(lectureTitle))
+                return Response.ok().build();
+            else
+                return Response.noContent().build();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Create Lecture", e);
+            return Response.serverError().entity("SQL Exception").build();
+        }
+    }
+
     @Path("getAll")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
