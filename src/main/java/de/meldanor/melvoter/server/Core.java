@@ -49,7 +49,7 @@ public class Core {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Can't create database connection", e);
         }
-        WebService service = new WebService("web", "http://192.168.1.33", PORT);
+        WebService service = new WebService("web", "http://0.0.0.0", PORT);
         try {
             service.start();
         } catch (IOException e) {
